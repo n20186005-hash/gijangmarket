@@ -13,13 +13,19 @@
 - Node.js 24.19.0 LTS
 
 ## 도메인 설정
-실제 도메인이 정해지면 **한 곳만** 설정합니다.
+확정 도메인 `https://gijangmarket.com` 을 `astro.config.mjs` 기본값으로 지정했습니다. 다른 도메인으로 배포하려면 **한 곳만** 환경 변수로 덮어씁니다.
 
 ```bash
 SITE_URL="$PRODUCTION_ORIGIN" pnpm build
 ```
 
-`SITE_URL`이 없으면 canonical/OG의 절대 URL을 강제하지 않고 sitemap 통합도 활성화하지 않습니다. 가짜 도메인을 쓰지 않습니다.
+`SITE_URL` 이 비어 있으면 canonical/OG 의 절대 URL을 강제하지 않고 sitemap 통합도 활성화하지 않습니다(현재는 기본값이 지정되어 항상 생성됨). 가짜 도메인을 쓰지 않습니다.
+
+## 배포 보안/리다이렉트
+- `public/_headers`: HSTS(`Strict-Transport-Security`)와 기본 보안 헤더를 Cloudflare Assets 로 배포합니다.
+- `public/_redirects`: `www.gijangmarket.com` → `gijangmarket.com` (301) 로 통합합니다.
+- `http → https` 는 Cloudflare 대시보드의 **Always Use HTTPS** 로 처리합니다(정적 자산 `_redirects` 는 스킴 리다이렉트를 지원하지 않음).
+- `public/robots.txt` 는 `sitemap-index.xml` 을 가리킵니다.
 
 ## 개발 및 검증
 ```bash

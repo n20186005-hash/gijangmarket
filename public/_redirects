@@ -1,0 +1,3 @@
+# www → apex 로 통합(301). 가중치 분산 방지.
+# http → https 는 Cloudflare 대시보드의 "Always Use HTTPS" 로 처리합니다(정적 자산 _redirects 는 스킴 리다이렉트 미지원).
+http://www.gijangmarket.com/* https://gijangmarket.com/:splat 301

@@ -1,54 +1,19 @@
-# 기장시장 여행안내
+# 기장시장 부산 여행안내
 
-부산 기장시장에 대한 독립 비영리 관광 정보 사이트입니다. Astro + Tailwind CSS + TypeScript 기반이며 Cloudflare Workers 배포를 목표로 합니다.
+부산 기장시장을 위한 한국어 독립 방문 가이드입니다. 시장·번영회·정부의 공식 사이트가 아니며 예약·판매 기능이 없습니다.
 
-## 기술 버전
-- Astro 7.2.4
-- @astrojs/sitemap 3.7.3
-- @astrojs/check 0.9.10
-- Tailwind CSS / @tailwindcss/vite 4.3.3
-- TypeScript 6.0.3 (`@astrojs/check` 0.9.10 peer 범위 `^5 || ^6` 충족)
-- Wrangler 4.125.0
-- pnpm 11.23.0
-- Node.js 24.19.0 LTS
+## 실행과 구조
 
-## 도메인 설정
-확정 도메인 `https://gijangmarket.com` 을 `astro.config.mjs` 기본값으로 지정했습니다. 다른 도메인으로 배포하려면 **한 곳만** 환경 변수로 덮어씁니다.
+Node 24.19.0 / pnpm 11.23.0. `pnpm install --frozen-lockfile`, `pnpm check`, `pnpm build`를 실행합니다. Astro는 기존 `/`, `/privacy/`, `/terms/`, `/cookies/`와 404를 정적 HTML로 출력합니다. 새 언어를 추가하지 않습니다. canonical·OG·한국어 alternate와 홈페이지 sitemap은 확정 도메인 `https://gijangmarket.com/`을 사용합니다.
 
-```bash
-SITE_URL="$PRODUCTION_ORIGIN" pnpm build
-```
+Cloudflare 실제 Worker 프로젝트는 `gijangmarket`입니다. ASSETS `run_worker_first`를 사용하는 Worker가 HTTP/www를 경로·쿼리 보존 301 처리하며, 없는 주소는 noindex가 포함된 실제 404입니다. `pnpm deploy`는 빌드 후 게시하므로 게시 권한자가 별도 실행합니다.
 
-`SITE_URL` 이 비어 있으면 canonical/OG 의 절대 URL을 강제하지 않고 sitemap 통합도 활성화하지 않습니다(현재는 기본값이 지정되어 항상 생성됨). 가짜 도메인을 쓰지 않습니다.
+기존 저장소의 **빌드 결과 추적 관례를 유지**합니다. `dist/`의 새 해시 스타일, 그래픽, robots·sitemap·404도 원본과 함께 커밋에 포함하고 참조 파일이 제출 트리에 실제 있는지 검사합니다. 생성 캐시 `.astro/`와 `.wrangler/`, 설치 로그는 공개 트리에서 제외합니다.
 
-## 배포 보안/리다이렉트
-- `public/_headers`: HSTS(`Strict-Transport-Security`)와 기본 보안 헤더를 Cloudflare Assets 로 배포합니다.
-- `public/_redirects`: `www.gijangmarket.com` → `gijangmarket.com` (301) 로 통합합니다.
-- `http → https` 는 Cloudflare 대시보드의 **Always Use HTTPS** 로 처리합니다(정적 자산 `_redirects` 는 스킴 리다이렉트를 지원하지 않음).
-- `public/robots.txt` 는 `sitemap-index.xml` 을 가리킵니다.
+## 편집과 그래픽
 
-## 개발 및 검증
-```bash
-corepack enable
-pnpm install --frozen-lockfile
-pnpm check
-pnpm build
-```
+출처별 영업시간·휴무를 구분하고 건물·판매점·식당의 공통 일정으로 보장하지 않습니다. 무료·재고·신선도·위생·음식 적합성·시설 운영을 추정하지 않습니다. FAQ는 화면과 JSON-LD가 같은 배열에서 생성됩니다. TouristAttraction schema에는 시간·평가·가격을 넣지 않습니다. [SOURCES.md](SOURCES.md)에 자료 범위와 기존 사진의 교체 사유·알려진 출처를 보존합니다. 현재 그래픽은 명시적으로 표시한 개념 일러스트이며 실제 사진이나 지도가 아닙니다.
 
-## 이미지 출처 및 권리
-- `public/images/hero.webp`: NOL World / Triple Guide에 게재된 기장시장 사진. 원저작권은 해당 사진 원저작자에게 있습니다.
-- `public/images/market-entry.jpg`: 부산광역시 부산시보 이야기리포트에 게재된 기장시장 사진. 원저작권은 해당 사진 원저작자에게 있습니다.
-- `public/images/seafood.jpg`: Nita Travel에 게재된 기장시장 수산물 사진. 원저작권은 해당 사진 원저작자에게 있습니다.
+## 개인정보
 
-사이트는 비영리 정보 제공 목적으로 출처를 기록해 사용한 예시 프로젝트입니다. 공개 배포 전 운영자는 각 이미지의 사용 허용 범위를 다시 확인하고, 필요하면 라이선스가 명확한 자체 촬영물 또는 허가받은 이미지로 교체해야 합니다.
-
-## 주요 정보 출처
-- 기장군청 / 기장군 문화관광: 주소, 취급 품목, 운영시간, 정기휴무, 시장 역사, 주차, 주변 관광자원
-- 부산광역시 / Visit Busan: 대중교통, 관광 개요
-- 한국관광공사 VISITKOREA / 열린관광 모두의 여행: 시장 개요, 주차·무장애 편의정보
-
-## 비공식 안내
-본 사이트는 독립 비영리 관광 정보 안내 프로젝트이며 기장시장, 시장번영회 또는 어떠한 정부기관의 공식 사이트가 아닙니다.
-
-## 편집 원칙
-운영시간처럼 변동될 수 있는 정보는 기장군 문화관광의 현재 공개 안내를 우선하며, 다른 공공 관광자료와 내용이 다를 경우 본문에서 차이를 명시합니다. 확인되지 않은 전설이나 일화는 만들지 않습니다. 주변 음식·숙박·쇼핑 정보는 업종과 시설 유형만 설명하고 특정 상호를 추천하지 않습니다.
+Google 지도는 선택해서 여는 외부 링크입니다. Google Analytics는 `/cookies/`에서 명시적 허용 후에만 로드합니다. `gijangmarket_cookie_preferences`는 이전 `cookie-consent` 허용을 가져오지 않습니다. 철회 저장 실패 시 즉시 분석을 끄고 가능한 sessionStorage 거부로 같은 탭의 이동·새로고침에 유지합니다. 자동 새로고침하지 않으며 두 저장소 실패 시 현재 페이지에만 적용되는 한계를 한국어로 알립니다. 계정·예약·문의 양식·이메일 창구·사용하지 않는 환경설정 기능은 없습니다.

@@ -1,1 +1,9 @@
 node_modules
+
+ci-install.log
+.astro/
+.wrangler/
+.env
+.env.*
+!.env.example
+.DS_Store

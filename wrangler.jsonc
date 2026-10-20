@@ -1,8 +1,1 @@
-{
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "gijang-market-guide",
-  "compatibility_date": "2026-08-24",
-  "assets": {
-    "directory": "./dist"
-  }
-}
+{"$schema":"node_modules/wrangler/config-schema.json","name":"gijangmarket","main":"src/worker.ts","compatibility_date":"2026-08-01","assets":{"directory":"./dist","binding":"ASSETS","run_worker_first":true,"not_found_handling":"404-page"}}

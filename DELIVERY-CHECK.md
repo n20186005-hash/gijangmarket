@@ -1,32 +1,12 @@
-# 전달 전 검증 기록
+# 로컬 검증 범위
 
-## 정적 감사
-- `package.json` 직접 의존성과 `pnpm-lock.yaml` importer가 정확 버전으로 일치합니다.
-- `packageManager`는 `pnpm@11.23.0`, Node.js는 `.node-version`과 `engines.node` 모두 `24.19.0`으로 고정했습니다.
-- `@astrojs/check@0.9.10`의 TypeScript peer 범위 `^5.0.0 || ^6.0.0` 안에서 TypeScript `6.0.3`을 사용합니다.
-- 단일 패키지 프로젝트이며 `pnpm-workspace.yaml`은 없습니다.
-- 사이트 URL은 `astro.config.mjs`에서 `SITE_URL` 한 곳으로만 주입하며, 값이 없으면 sitemap 통합은 비활성화됩니다.
-- 지도 임베드는 한국어/대한민국 지역 파라미터(`ko`/`kr`)를 사용합니다.
-- 개인정보처리방침·서비스 이용약관·쿠키 설정은 독립 경로입니다.
-- GA4는 분석 동의가 있을 때만 동적으로 로드됩니다.
-- 본문 사진, 로고, favicon은 프로젝트 내부 파일입니다.
+- 기존 한국어 4개 안내·법적 경로와 실제 404를 정적 HTML로 생성합니다.
+- 확정 HTTPS 도메인의 canonical·OG·한국어 alternate 및 홈페이지 sitemap을 검사합니다.
+- 본문과 FAQ JSON-LD는 동일한 배열을 사용하며, 운영 안내는 출처·확인일과 건물·점포 범위를 구분합니다.
+- Worker의 HTTP/www 301 경로·쿼리 보존, 실제 404/noindex와 보안 헤더를 단위 및 로컬 HTTP로 검사합니다.
+- 분석 동의 전 비활성화, 이전 허용 철회 중 쓰기 실패, 같은 탭 이동·새로고침 거부 유지와 양 저장소 실패 메시지를 검사합니다.
+- 현재 공개 이미지는 자체 개념 일러스트이며 실제 사진·지도·시설 운영 증거가 아닙니다. 권한 미확인 기존 사진의 알려진 출처와 교체 사유는 SOURCES.md에 보존합니다.
+- 기존의 dist 추적 관례에 따라 새 해시 스타일·그래픽·404·robots·sitemap을 포함한 모든 결과와 원본의 참조·제출 트리 존재를 검사합니다.
+- 설치 로그와 생성 캐시는 현재 공개 트리에서 제외하고 전체 텍스트·빌드·제출 차이를 개인정보·자격증명 관점에서 검사합니다.
 
-## 요청된 깨끗한 환경 실행 결과
-실제로 `node_modules`와 `dist`를 삭제한 뒤 아래 첫 명령을 실행했습니다.
-
-```bash
-CI=1 corepack pnpm install --frozen-lockfile
-```
-
-현재 실행 샌드박스가 `registry.npmjs.org` DNS 조회를 허용하지 않아 Corepack이 고정된 pnpm 11.23.0 실행 파일을 내려받기 전에 `EAI_AGAIN`으로 중단되었습니다. 따라서 이 환경에서는 의존성 설치 이후 단계인 `pnpm check`와 `pnpm build`를 실행했다고 허위로 표시하지 않습니다. 상세 원문은 `ci-install.log`에 포함했습니다.
-
-네트워크 접근이 가능한 Node.js 24.19.0 환경에서는 다음 게이트를 그대로 실행하십시오.
-
-```bash
-rm -rf node_modules dist
-CI=1 corepack pnpm install --frozen-lockfile
-pnpm check
-pnpm build
-```
-
-실제 도메인이 아직 비어 있는 현재 설정에서는 sitemap이 생성되지 않는 것이 의도된 동작입니다. 운영 도메인을 `SITE_URL`에 지정한 뒤 다시 빌드하면 `@astrojs/sitemap`이 실제 도메인 기준으로 생성합니다.
+로컬 소스·HTML·HTTP·VM 검사는 정식 브라우저나 생산 배포 검증을 대체하지 않습니다. 실제 모바일 가독성·동작 및 최종 도메인·Cloudflare 빌드 검증은 게시 담당자가 별도로 수행해야 합니다. 로컬 성공은 배포 완료라는 뜻이 아닙니다.

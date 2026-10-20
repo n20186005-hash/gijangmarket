@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gijangmarket.com/sitemap-index.xml

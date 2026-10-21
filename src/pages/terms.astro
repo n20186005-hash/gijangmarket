@@ -1,5 +1,48 @@
 ---
-import '../styles/global.css';
-import { SITE_NAME } from '../data/site'; const site=Astro.site; const canonical=site?new URL('/terms/',site).toString():undefined;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_NAME } from '../data/site';
 ---
-<!doctype html><html lang="ko"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><title>서비스 이용약관 | {SITE_NAME}</title><meta name="description" content="기장시장 여행안내의 콘텐츠 목적, 정보 정확성, 상업적 중립성, 지식재산권과 책임의 제한을 안내하는 서비스 이용약관."/>{canonical&&<link rel="canonical" href={canonical}/>}{canonical&&<><link rel="alternate" hreflang="ko" href={canonical}/><link rel="alternate" hreflang="x-default" href={canonical}/></>}<meta property="og:title" content={`서비스 이용약관 | ${SITE_NAME}`}/><meta property="og:description" content="기장시장 여행안내의 서비스 이용 약관 안내."/>{canonical&&<meta property="og:url" content={canonical}/>}<meta property="og:type" content="website"/><meta property="og:locale" content="ko_KR"/><meta property="og:site_name" content={SITE_NAME}/><link rel="icon" href="/favicon.svg"/></head><body><header class="border-b bg-white"><div class="container flex h-18 items-center justify-between"><a href="/"><img src="/logo.svg" alt="기장시장 여행안내" class="h-11"/></a><a class="font-bold" href="/">홈으로</a></div></header><main class="section"><article class="legal prose"><p class="eyebrow">이용 조건 안내</p><h1>서비스 이용약관</h1><p><strong>최종 업데이트: 2026년 8월</strong></p><p>기장시장 여행안내를 방문하거나 이용함으로써 이용자는 본 약관에 동의한 것으로 간주됩니다.</p><h2>콘텐츠의 목적</h2><p>모든 정보는 여행 계획과 지역 이해를 돕기 위한 비영리·교육적 참고 자료입니다. 본 사이트는 기장시장, 상인회, 기장군청, 부산광역시, 한국관광공사 또는 기타 정부기관·상업 운영자와 제휴된 공식 사이트가 아닙니다.</p><h2>정보의 정확성</h2><p>공공기관과 관광 정보 자료를 교차 확인해 정확한 정보를 제공하려 노력하지만, 영업시간·휴무일·교통·주차·가격·기상·행사 등은 예고 없이 변경될 수 있습니다. 중요한 여행 결정 전에는 공식 채널에서 최신 정보를 다시 확인해야 합니다.</p><h2>상업적 중립성</h2><p>주변 음식점, 숙박, 쇼핑, 주유·충전 정보는 업종과 시설 유형을 중심으로 설명하며 특정 사업자를 광고하거나 보증하지 않습니다.</p><h2>지식재산권</h2><p>사이트의 자체 디자인, 편집 구성과 원문 작성 콘텐츠는 관련 법령의 보호를 받습니다. 사진의 저작권은 각 원저작자에게 있으며, 출처 정보는 프로젝트 README에 기록되어 있습니다. Google 지도 데이터와 임베드 사용에는 Google의 관련 약관이 적용됩니다.</p><h2>책임의 제한</h2><p>본 사이트는 ‘있는 그대로’ 제공되며 특정 목적 적합성이나 완전성을 보증하지 않습니다. 이용자는 현장 상황을 직접 확인할 책임이 있으며, 본 정보에만 의존해 발생한 일정 변경, 비용, 손실 등에 대해 법이 허용하는 범위에서 책임을 제한합니다.</p><h2>외부 서비스와 링크</h2><p>외부 서비스 또는 지도는 제3자가 운영합니다. 해당 서비스의 접근성, 보안, 개인정보 처리, 콘텐츠에 대해서는 각 운영자의 정책이 적용됩니다.</p></article></main></body></html>
+<BaseLayout title={`이용약관 | ${SITE_NAME}`} description="기장시장 관광정보 가이드의 독립성, 정보 정확성, 콘텐츠 이용과 책임 범위에 관한 이용약관입니다.">
+  <section class="legal-hero"><div class="shell"><p class="section-kicker">서비스 이용 안내</p><h1 class="display">이용약관</h1><p>최종 업데이트: 2026년 10월 20일</p></div></section>
+  <section class="section"><article class="shell legal prose-ko">
+    <p class="lead">기장시장 관광정보 가이드에 접속하고 이용함으로써 이용자는 아래 조건에 동의합니다. 본 사이트는 여행 결정을 돕는 참고 자료이며, 기장시장·부산광역시·기장군·한국관광공사 또는 어떠한 상업 운영자도 대리하지 않습니다.</p>
+
+    <h2>1. 사이트의 성격</h2>
+    <p>본 사이트는 <b>독립적인 비영리 제3자 관광정보 프로젝트</b>입니다. 정부 기관, 관광지 운영 주체, 시장 상인회, 상업 업체와 공식적인 소속·후원·제휴 관계가 없습니다. 특정 상점·음식점·숙박업소의 순위나 구매 권유를 제공하지 않으며, 이용자가 지역을 이해하고 안전하게 방문할 수 있도록 공공 정보를 정리하는 데 목적이 있습니다.</p>
+
+    <h2>2. 콘텐츠 이용</h2>
+    <p>사이트의 설명문, 정보 구조, 디자인과 직접 제작한 그래픽은 정보 열람을 위해 제공됩니다. 법이 허용하는 범위를 넘어 사이트의 독창적 콘텐츠를 대량 복제하거나 출처를 숨긴 채 재배포하는 행위는 제한될 수 있습니다. 공공기관 자료에 기초한 사실 자체는 해당 기관의 원자료와 이용 조건을 우선합니다.</p>
+
+    <h2>3. 정보의 정확성과 최신성</h2>
+    <p>역사·주소·교통·운영정보는 부산광역시, 기장군, 한국관광공사, 부산 관광 관련 공공 자료 등을 교차 확인해 작성합니다. 다만 전통시장의 점포별 영업시간, 휴무, 가격, 주차요금, 공사·교통 상황, 편의시설 운영 상태는 예고 없이 바뀔 수 있습니다.</p>
+    <p>중요한 일정이나 이동 결정을 내리기 전에는 해당 시점의 공식 공공 정보, 현장 안내, 교통 운영기관 정보를 다시 확인해야 합니다. 본 사이트의 정보가 특정 시점 이후에도 완전하거나 동일하다고 보장하지 않습니다.</p>
+
+    <h2>4. 식품·해산물 정보</h2>
+    <p>시장과 계절 품목에 관한 설명은 관광·생활문화 안내입니다. 상품의 재고·산지·신선도·위생·알레르기 적합성이나 건강 효과를 확인·보장한 내용이 아닙니다. 가격·중량·원재료·보관 조건은 개별 판매자에게 확인하세요.</p>
+
+    <h2>5. 외부 링크와 지도</h2>
+    <p>Google 지도와 공공기관 사이트 등 외부 서비스로 연결되는 링크가 포함될 수 있습니다. 외부 사이트의 콘텐츠, 운영 상태, 개인정보 처리와 서비스 조건은 해당 제공자의 책임 영역이며 본 사이트가 통제하지 않습니다.</p>
+
+    <h2>6. 지식재산권과 사진</h2>
+    <p>기존 사진의 저작권은 원 촬영자 및 권리자에게 있습니다. 현재 공개 이미지는 직접 제작한 개념 일러스트이며 실제 현장 사진이나 지도가 아닙니다. 이전 사진의 알려진 출처와 교체 사유는 자료 기록에 보존합니다. Google 지도 데이터와 상표는 Google의 해당 서비스 약관과 권리 정책의 적용을 받습니다.</p>
+
+    <h2>7. 책임의 제한</h2>
+    <p>본 사이트는 법이 허용하는 범위에서 ‘있는 그대로’ 제공됩니다. 사이트 정보에 의존한 여행 일정, 구매, 이동, 건강 관련 판단, 제3자 서비스 이용으로 발생한 직접·간접 손실에 대해 보증하거나 책임을 부담하지 않습니다. 다만 강행 법규에 따라 배제할 수 없는 책임은 제외됩니다.</p>
+
+    <h2>8. 금지되는 이용</h2>
+    <ul>
+      <li>사이트의 안정성이나 보안을 침해하려는 행위</li>
+      <li>자동화 수단을 이용해 서비스에 과도한 부하를 주는 행위</li>
+      <li>타인의 권리를 침해하거나 사이트의 독립 비영리 성격을 오인시키는 방식의 재사용</li>
+      <li>위법하거나 사기적인 목적을 위한 이용</li>
+    </ul>
+
+    <h2>9. 약관 변경</h2>
+    <p>서비스 운영 방식이나 관련 법규가 바뀌면 약관을 수정할 수 있습니다. 중요한 수정 사항은 이 페이지와 최종 업데이트 표시를 통해 알립니다.</p>
+
+    <div class="legal-nav"><a href="/privacy/">← 개인정보처리방침</a><a href="/cookies/">쿠키 설정 보기 →</a></div>
+  </article></section>
+</BaseLayout>
+<style>
+.legal-hero{padding:6rem 0 3.5rem;background:#173e32;color:white}.legal-hero h1{font-size:clamp(3rem,8vw,6rem);margin:.2rem 0}.legal-hero .section-kicker{color:#e2bd72}.legal-hero p:last-child{color:#bacbc2}.legal{max-width:880px}.legal .lead{font-size:1.18rem;color:#293630}.legal-nav{margin-top:4rem;padding-top:1.5rem;border-top:1px solid rgba(23,33,29,.18);display:flex;justify-content:space-between;gap:1rem;font-weight:800;font-size:.9rem}
+</style>

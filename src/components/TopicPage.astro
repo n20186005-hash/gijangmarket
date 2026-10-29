@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { MARKET, type Topic } from '../data/topics';
+
+interface Props {
+  topic: Topic;
+}
+const { topic } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const home = 'https://gijangmarket.com/';
+const marketId = 'https://gijangmarket.com/#market';
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '기장시장 가이드', item: home },
+    { '@type': 'ListItem', position: 2, name: topic.h1, item: canonical },
+  ],
+};
+
+const webPageLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: topic.h1,
+  description: topic.metaDescription,
+  url: canonical,
+  inLanguage: 'ko-KR',
+  about: { '@type': 'TouristAttraction', name: MARKET.name, '@id': marketId },
+  isPartOf: { '@type': 'WebSite', name: '기장시장 부산 여행안내', url: home },
+};
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: topic.faqs.map(([q, a]) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+---
+
+<BaseLayout title={topic.metaTitle} description={topic.metaDescription}>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)}></script>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(webPageLd)}></script>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(faqLd)}></script>
+  </Fragment>
+
+  <article class="topic">
+    <nav class="breadcrumb" aria-label="경로">
+      <a href="/">기장시장 가이드</a><span aria-hidden="true"> · </span><span>{topic.h1}</span>
+    </nav>
+
+    <header class="topic-hero">
+      <p class="eyebrow">{topic.kicker}</p>
+      <h1>{topic.h1}</h1>
+      <p class="lead">{topic.lead}</p>
+      <p class="updated">최종 확인·갱신: {topic.updated} · 독립 비영리 안내</p>
+    </header>
+
+    {
+      topic.facts && (
+        <dl class="facts">
+          {topic.facts.map(([label, value]) => (
+            <>
+              <dt>{label}</dt>
+              <dd>{value}</dd>
+            </>
+          ))}
+        </dl>
+      )
+    }
+
+    <div class="prose-ko">
+      {
+        topic.sections.map((s) => (
+          <section>
+            <h2>{s.heading}</h2>
+            {s.paragraphs && s.paragraphs.map((p) => (
+              <p>{p}</p>
+            ))}
+            {s.bullets && (
+              <ul>
+                {s.bullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+            )}
+          </section>
+        ))
+      }
+    </div>
+
+    <section class="faq-section">
+      <h2>자주 묻는 질문</h2>
+      <div class="faq-list">
+        {topic.faqs.map(([q, a]) => (
+          <details>
+            <summary>{q}</summary>
+            <p>{a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    {
+      topic.related.length > 0 && (
+        <section class="related-section">
+          <h2>관련 안내</h2>
+          <ul class="related-links">
+            {topic.related.map((slug) => (
+              <li>
+                <a href={`/${slug}/`}>/{slug}/</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <section class="back-home">
+      <a class="button" href="/">기장시장 가이드 홈으로</a>
+    </section>
+
+    <p class="small topic-note">
+      이 안내는 시장·상인회·정부기관의 공식 사이트가 아닙니다. 운영 안내가 다른 경우 차이를 표시하고, 점포별 현재 상태는 별도 확인하도록 안내합니다.
+    </p>
+  </article>
+</BaseLayout>

@@ -1,0 +1,32 @@
+---
+import { topicsByGroup, TOPIC_GROUP_LABELS, type TopicGroup } from '../data/topics';
+
+const groups: TopicGroup[] = ['market', 'transport', 'food', 'cafes', 'nearby', 'itineraries', 'visitor'];
+const groupsWithTopics = groups
+  .map((g) => ({ label: TOPIC_GROUP_LABELS[g], topics: topicsByGroup(g) }))
+  .filter((x) => x.topics.length > 0);
+---
+
+<section id="guides" class="section pale-section">
+  <div class="container">
+    <p class="eyebrow">기장시장 가이드</p>
+    <h2>영업시간·해산물 구매·교통·주변 코스</h2>
+    <p class="guides-intro">
+      기장시장을 준비하는 데 도움이 되는 독립 안내를 주제별로 정리했습니다. 각 페이지는 하나의 검색 의도를 다루며, 점포별 운영은 방문 전 따로 확인하세요.
+    </p>
+    {
+      groupsWithTopics.map((g) => (
+        <div class="topic-group">
+          <h3>{g.label}</h3>
+          <ul class="topic-links">
+            {g.topics.map((t) => (
+              <li>
+                <a href={`/${t.slug}/`}>{t.h1}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>
